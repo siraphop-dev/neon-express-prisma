@@ -1,3 +1,7 @@
-Get started by customizing your environment (defined in the .idx/dev.nix file) with the tools and IDE extensions you'll need for your project!
+# Neon + Express + Prisma CRUD API
 
-Learn more at https://firebase.google.com/docs/studio/customize-workspace
+RESTful API with Neon PostgreSQL + Prisma + Express with simple HTML frontend
+
+## 🚀 Import to Firebase Studio
+
+[![Import to Firebase Studio](https://www.gstatic.com/firebasejs/ui/studio/import-studio-button.svg)](https://studio.firebase.google.com/import?url=https://github.com/siraphop-dev/neon-express-prisma)
