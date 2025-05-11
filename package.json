@@ -1,7 +1,22 @@
 {
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
+    "@prisma/adapter-neon": "^6.7.0",
     "@prisma/client": "^6.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0"
-  }
+  },
+  "name": "neon-express-prisma",
+  "version": "1.0.0",
+  "description": "## 📦 1. เตรียมเครื่องมือ",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

@@ -1,8 +1,4 @@
 import express from 'express'
-import { neon } from '@neondatabase/serverless'
-import { PrismaNeonHTTP } from '@prisma/adapter-neon'
-import { PrismaClient } from '@prisma/client'
-import path from 'path'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
@@ -11,15 +7,30 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 3000
 
-const sql = neon(process.env.DATABASE_URL)
-const adapter = new PrismaNeonHTTP(sql)
-const prisma = new PrismaClient({ adapter })
+let prisma
+
+async function initPrisma() {
+  if (process.env.DATABASE_PROVIDER === 'neon') {
+    const { PrismaNeon } = await import('@prisma/adapter-neon')
+    const { Pool } = await import('@neondatabase/serverless')
+    const { PrismaClient } = await import('@prisma/client')
+
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+    const adapter = new PrismaNeon(pool)
+
+    prisma = new PrismaClient({ adapter })
+  } else {
+    const { PrismaClient } = await import('@prisma/client')
+    prisma = new PrismaClient()
+  }
+}
+
+await initPrisma()
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
 
-// CRUD APIs
 app.get('/api/items', async (req, res) => {
   const items = await prisma.item.findMany()
   res.json(items)
