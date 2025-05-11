@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRUD Table</title>
+</head>
+<body>
+  <h1>Items</h1>
+  <table id="itemsTable" border="1">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Price</th><th>Actions</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <h2>Add Item</h2>
+  <input id="name" placeholder="Name" />
+  <input id="price" placeholder="Price" type="number" />
+  <button onclick="addItem()">Add</button>
+
+  <script>
+    async function fetchItems() {
+      const res = await fetch('/api/items')
+      const data = await res.json()
+      const tbody = document.querySelector('#itemsTable tbody')
+      tbody.innerHTML = ''
+      data.forEach(item => {
+        const row = document.createElement('tr')
+        row.innerHTML = `
+          <td>${item.id}</td>
+          <td>${item.name}</td>
+          <td>${item.price}</td>
+          <td>
+            <button onclick="deleteItem(${item.id})">Delete</button>
+          </td>
+        `
+        tbody.appendChild(row)
+      })
+    }
+
+    async function addItem() {
+      const name = document.getElementById('name').value
+      const price = parseFloat(document.getElementById('price').value)
+      await fetch('/api/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, price })
+      })
+      fetchItems()
+    }
+
+    async function deleteItem(id) {
+      await fetch(`/api/items/${id}`, { method: 'DELETE' })
+      fetchItems()
+    }
+
+    fetchItems()
+  </script>
+</body>
+</html>
