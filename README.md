@@ -106,7 +106,7 @@ npx prisma migrate dev --name init
 docker compose down --volumes --remove-orphans
 rm -rf node_modules package-lock.json
 npm install
-docker compose build --no-cache
+docker compose build --no-cache && docker compose up
 docker compose up
 ```
 
